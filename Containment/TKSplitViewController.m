@@ -108,13 +108,13 @@
             
             _locked = NO;
 
-            if ( offset >= (self.masterViewWidth / 2) )
+            if ( offset >= ((self.masterViewWidth-self.elasticity) / 2) )
             {
                 _locked = YES;
                 
-                if ( offset >= (self.masterViewWidth + self.elasticity) )
+                if ( offset >= (self.masterViewWidth) )
                 {
-                    offset = (self.masterViewWidth + self.elasticity);
+                    offset = (self.masterViewWidth);
                 }
             }
             else if ( offset <= 0 )
@@ -146,7 +146,7 @@
         {
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
-                frame.origin.x = self.masterViewWidth;
+                frame.origin.x = self.masterViewWidth - self.elasticity;
                 self.detailViewController.view.frame = frame;
             }];
         }

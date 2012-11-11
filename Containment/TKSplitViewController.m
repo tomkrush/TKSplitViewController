@@ -55,7 +55,7 @@
             
             _locked = NO;
 
-            if ( offset >= 320 )
+            if ( offset >= (320 / 2) )
             {
                 _locked = YES;
                 
@@ -184,11 +184,6 @@
 	layer.shadowPath = shadowPath.CGPath;
 
     self.detailViewController.view.frame = detailFrame;
-}
-
-- (void)viewDidLoad
-{
-    self.view.backgroundColor = [UIColor purpleColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated

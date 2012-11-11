@@ -19,7 +19,7 @@
     [self.window makeKeyAndVisible];
     
     
-    TKSplitViewController *revealViewController = [[TKSplitViewController alloc] init];
+    TKSplitViewController *splitViewController = [[TKSplitViewController alloc] init];
     
     UIViewController *testController = [[UIViewController alloc] init];
     UIViewController *testController2 = [[UIViewController alloc] init];
@@ -32,9 +32,9 @@
     UIViewController *detailViewController = [[UIViewController alloc] init];
     detailViewController.view.backgroundColor = [UIColor whiteColor];
     
-    revealViewController.viewControllers = @[masterViewController, detailViewController];
+    splitViewController.viewControllers = @[masterViewController, detailViewController];
     
-    self.window.rootViewController = revealViewController;
+    self.window.rootViewController = splitViewController;
     
     return YES;
 }

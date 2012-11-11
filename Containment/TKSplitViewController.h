@@ -16,4 +16,7 @@
 @property (nonatomic, strong) NSArray *viewControllers;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
+- (void)presentMasterViewController:(BOOL)animate;
+- (void)dismissMasterViewController:(BOOL)animate;
+
 @end

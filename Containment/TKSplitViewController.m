@@ -33,6 +33,46 @@
     return _panGestureRecognizer;
 }
 
+- (void)presentMasterViewController:(BOOL)animate
+{
+    self.masterViewController.view.hidden = NO;
+
+    if ( animate )
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect frame = self.detailViewController.view.frame;
+            frame.origin.x = 320;
+            self.detailViewController.view.frame = frame;
+        }];
+    }
+    else
+    {
+        CGRect frame = self.detailViewController.view.frame;
+        frame.origin.x = 320;
+        self.detailViewController.view.frame = frame;
+    }
+}
+
+- (void)dismissMasterViewController:(BOOL)animate
+{
+    self.masterViewController.view.hidden = NO;
+
+    if ( animate )
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect frame = self.detailViewController.view.frame;
+            frame.origin.x = 0;
+            self.detailViewController.view.frame = frame;
+        }];
+    }
+    else
+    {
+        CGRect frame = self.detailViewController.view.frame;
+        frame.origin.x = 0;
+        self.detailViewController.view.frame = frame;
+    }
+}
+
 - (void)drag:(UIPanGestureRecognizer *)gesture
 {
     if ( [gesture numberOfTouches] == 1 )
@@ -84,7 +124,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
                 frame.origin.x = 0;
-                self.detailViewController.view.layer.frame = frame;
+                self.detailViewController.view.frame = frame;
             } completion:^(BOOL finished) {
                 self.masterViewController.view.hidden = YES;
             }];
@@ -94,7 +134,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
                 frame.origin.x = 320;
-                self.detailViewController.view.layer.frame = frame;
+                self.detailViewController.view.frame = frame;
             }];
         }
     }

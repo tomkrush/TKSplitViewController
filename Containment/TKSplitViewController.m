@@ -21,6 +21,19 @@
 
 @synthesize viewControllers = _viewControllers;
 @synthesize panGestureRecognizer = _panGestureRecognizer;
+@synthesize masterViewWidth;
+@synthesize elasticity;
+
+- (id)init
+{
+    if ( self = [super init] )
+    {
+        self.masterViewWidth = 320.0f;
+        self.elasticity = 20.0f;
+    }
+    
+    return self;
+}
 
 - (UIPanGestureRecognizer *)panGestureRecognizer
 {
@@ -41,14 +54,14 @@
     {
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = self.detailViewController.view.frame;
-            frame.origin.x = 320;
+            frame.origin.x = self.masterViewWidth;
             self.detailViewController.view.frame = frame;
         }];
     }
     else
     {
         CGRect frame = self.detailViewController.view.frame;
-        frame.origin.x = 320;
+        frame.origin.x = self.masterViewWidth;
         self.detailViewController.view.frame = frame;
     }
 }
@@ -95,13 +108,13 @@
             
             _locked = NO;
 
-            if ( offset >= (320 / 2) )
+            if ( offset >= (self.masterViewWidth / 2) )
             {
                 _locked = YES;
                 
-                if ( offset >= 360 )
+                if ( offset >= (self.masterViewWidth + self.elasticity) )
                 {
-                    offset = 360;
+                    offset = (self.masterViewWidth + self.elasticity);
                 }
             }
             else if ( offset <= 0 )
@@ -133,7 +146,7 @@
         {
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
-                frame.origin.x = 320;
+                frame.origin.x = self.masterViewWidth;
                 self.detailViewController.view.frame = frame;
             }];
         }
@@ -210,13 +223,13 @@
 
 - (void)viewDidLayoutSubviews
 {
-    self.masterViewController.view.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height);
+    self.masterViewController.view.frame = CGRectMake(0, 0, self.masterViewWidth, self.view.bounds.size.height);
     
     CGRect detailFrame = self.view.bounds;
     
     if ( _locked )
     {
-        detailFrame.origin.x += 320;
+        detailFrame.origin.x += self.masterViewWidth;
     }
     
     CALayer *layer = self.detailViewController.view.layer;

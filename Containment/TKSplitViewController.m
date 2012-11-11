@@ -108,13 +108,13 @@
             
             _locked = NO;
 
-            if ( offset >= ((self.masterViewWidth-self.elasticity) / 2) )
+            if ( offset >= (self.masterViewWidth / 2) )
             {
                 _locked = YES;
                 
-                if ( offset >= (self.masterViewWidth) )
+                if ( offset >= (self.masterViewWidth + self.elasticity) )
                 {
-                    offset = (self.masterViewWidth);
+                    offset = (self.masterViewWidth + self.elasticity);
                 }
             }
             else if ( offset <= 0 )
@@ -146,7 +146,7 @@
         {
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
-                frame.origin.x = self.masterViewWidth - self.elasticity;
+                frame.origin.x = self.masterViewWidth;
                 self.detailViewController.view.frame = frame;
             }];
         }
@@ -223,7 +223,7 @@
 
 - (void)viewDidLayoutSubviews
 {
-    self.masterViewController.view.frame = CGRectMake(0, 0, self.masterViewWidth, self.view.bounds.size.height);
+    self.masterViewController.view.frame = CGRectMake(0, 0, self.masterViewWidth + self.elasticity, self.view.bounds.size.height);
     
     CGRect detailFrame = self.view.bounds;
     

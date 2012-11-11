@@ -59,9 +59,9 @@
             {
                 _locked = YES;
                 
-                if ( offset >= 380 )
+                if ( offset >= 360 )
                 {
-                    offset = 380;
+                    offset = 360;
                 }
             }
             else if ( offset <= 0 )

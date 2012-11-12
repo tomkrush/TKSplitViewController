@@ -22,5 +22,6 @@
 
 - (void)presentMasterViewController:(BOOL)animate;
 - (void)dismissMasterViewController:(BOOL)animate;
+- (BOOL)isMasterViewControllerPresented;
 
 @end

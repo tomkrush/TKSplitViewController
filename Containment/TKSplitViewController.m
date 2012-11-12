@@ -46,6 +46,11 @@
     return _panGestureRecognizer;
 }
 
+- (BOOL)isMasterViewControllerPresented
+{
+    return ! self.masterViewController.view.hidden;
+}
+
 - (void)presentMasterViewController:(BOOL)animate
 {
     self.masterViewController.view.hidden = NO;

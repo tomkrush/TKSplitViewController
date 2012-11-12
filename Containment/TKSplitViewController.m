@@ -73,14 +73,14 @@
 
 - (void)dismissMasterViewController:(BOOL)animate
 {
-    self.masterViewController.view.hidden = NO;
-
     if ( animate )
     {
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = self.detailViewController.view.frame;
             frame.origin.x = 0;
             self.detailViewController.view.frame = frame;
+        } completion:^(BOOL finished) {
+            self.masterViewController.view.hidden = YES;
         }];
     }
     else
@@ -88,6 +88,7 @@
         CGRect frame = self.detailViewController.view.frame;
         frame.origin.x = 0;
         self.detailViewController.view.frame = frame;
+        self.masterViewController.view.hidden = YES;
     }
 }
 

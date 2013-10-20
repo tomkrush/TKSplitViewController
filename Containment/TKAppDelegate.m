@@ -7,7 +7,8 @@
 //
 
 #import "TKAppDelegate.h"
-#import "TKSplitViewController.h"
+#import "TKSampleMasterViewController.h"
+#import "TKSampleDetailViewController.h"
 
 @implementation TKAppDelegate
 
@@ -20,16 +21,17 @@
     
     
     TKSplitViewController *splitViewController = [[TKSplitViewController alloc] init];
+    splitViewController.delegate = self;
     
-    UIViewController *testController = [[UIViewController alloc] init];
-    UIViewController *testController2 = [[UIViewController alloc] init];
+    UIViewController *testController = [[TKSampleMasterViewController alloc] init];
+    UIViewController *testController2 = [[TKSampleMasterViewController alloc] init];
     
     UINavigationController *masterViewController = [[UINavigationController alloc] initWithRootViewController:testController];
     [masterViewController pushViewController:testController2 animated:NO];
     
-    masterViewController.view.backgroundColor = [UIColor yellowColor];
+    masterViewController.view.backgroundColor = [UIColor grayColor];
     
-    UIViewController *detailViewController = [[UIViewController alloc] init];
+    UIViewController *detailViewController = [[TKSampleDetailViewController alloc] init];
     detailViewController.view.backgroundColor = [UIColor whiteColor];
     
     splitViewController.viewControllers = @[masterViewController, detailViewController];
@@ -37,6 +39,16 @@
     self.window.rootViewController = splitViewController;
     
     return YES;
+}
+
+- (void)splitViewController:(TKSplitViewController *)splitViewController didPresentMasterViewController:(UIViewController *)masterViewController
+{
+    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
+    UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+
+    splitViewController.detailViewController.view.backgroundColor = color;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

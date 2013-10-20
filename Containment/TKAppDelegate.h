@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TKSplitViewController.h"
 
-@interface TKAppDelegate : UIResponder <UIApplicationDelegate>
+@interface TKAppDelegate : UIResponder <UIApplicationDelegate, TKSplitViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

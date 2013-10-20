@@ -11,9 +11,16 @@
 
 @interface TKSplitViewController ()
 
-- (UIViewController *)masterViewController;
-- (UIViewController *)detailViewController;
 - (void)drag:(UIPanGestureRecognizer *)gesture;
+
+- (void)lockStatusBar;
+- (void)unlockStatusBar;
+
+- (void)didPresentMasterViewController;
+- (void)willPresentMasterViewController;
+
+- (void)didDismissMasterViewController;
+- (void)willDismissMasterViewController;
 
 @end
 
@@ -23,6 +30,8 @@
 @synthesize panGestureRecognizer = _panGestureRecognizer;
 @synthesize masterViewWidth;
 @synthesize elasticity;
+@synthesize statusBarView = _statusBarView;
+@synthesize delegate = _delegate;
 
 - (id)init
 {
@@ -33,6 +42,40 @@
     }
     
     return self;
+}
+
+- (UIView *)statusBarView
+{
+    if ( ! _statusBarView )
+    {
+        CGRect rect = [[UIApplication sharedApplication] statusBarFrame];
+        
+        _statusBarView = [[UIView alloc] initWithFrame:rect];
+        UIView *screenshot = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+        NSLog(@"%@", [screenshot subviews]);
+        
+        [_statusBarView addSubview:screenshot];
+        _statusBarView.clipsToBounds = YES;
+    }
+    
+    return _statusBarView;
+}
+
+- (void)lockStatusBar
+{
+    [self.detailViewController.view addSubview:self.statusBarView];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    CGRect rect = self.statusBarView.frame;
+    rect.origin = CGPointMake(0, 0);
+    
+    self.statusBarView.frame = rect;
+}
+
+- (void)unlockStatusBar
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [_statusBarView removeFromSuperview];
+    _statusBarView = nil;
 }
 
 - (UIPanGestureRecognizer *)panGestureRecognizer
@@ -53,6 +96,7 @@
 
 - (void)presentMasterViewController:(BOOL)animate
 {
+    [self willPresentMasterViewController];
     self.masterViewController.view.hidden = NO;
 
     if ( animate )
@@ -61,6 +105,8 @@
             CGRect frame = self.detailViewController.view.frame;
             frame.origin.x = self.masterViewWidth;
             self.detailViewController.view.frame = frame;
+            
+            [self didPresentMasterViewController];
         }];
     }
     else
@@ -68,11 +114,15 @@
         CGRect frame = self.detailViewController.view.frame;
         frame.origin.x = self.masterViewWidth;
         self.detailViewController.view.frame = frame;
+        
+        [self didPresentMasterViewController];
     }
 }
 
 - (void)dismissMasterViewController:(BOOL)animate
 {
+    [self willDismissMasterViewController];
+
     if ( animate )
     {
         [UIView animateWithDuration:0.3 animations:^{
@@ -81,6 +131,7 @@
             self.detailViewController.view.frame = frame;
         } completion:^(BOOL finished) {
             self.masterViewController.view.hidden = YES;
+            [self didDismissMasterViewController];
         }];
     }
     else
@@ -89,6 +140,8 @@
         frame.origin.x = 0;
         self.detailViewController.view.frame = frame;
         self.masterViewController.view.hidden = YES;
+        
+        [self didDismissMasterViewController];
     }
 }
 
@@ -102,6 +155,12 @@
         {            
             _initialTouch = touch;
             _locked = NO;
+            
+            if ( ! [self isMasterViewControllerPresented] )
+            {
+                [self lockStatusBar];
+            }
+            
             self.masterViewController.view.hidden = NO;
         }
         
@@ -138,6 +197,7 @@
     
     if ( gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateFailed || gesture.state == UIGestureRecognizerStateCancelled)
     {
+        // Hide Master View Controller
         if ( _locked == NO)
         {
             [UIView animateWithDuration:0.3 animations:^{
@@ -146,14 +206,22 @@
                 self.detailViewController.view.frame = frame;
             } completion:^(BOOL finished) {
                 self.masterViewController.view.hidden = YES;
+                [self unlockStatusBar];
+                
+                [self didDismissMasterViewController];
             }];
         }
+        
+        // Show Master View Controller
         else
         {
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect frame = self.detailViewController.view.frame;
                 frame.origin.x = self.masterViewWidth;
                 self.detailViewController.view.frame = frame;
+                [self lockStatusBar];
+                
+                [self didPresentMasterViewController];
             }];
         }
     }
@@ -194,15 +262,13 @@
     
     [self.view addSubview:self.detailViewController.view];
     
-
-    self.detailViewController.view.layer.cornerRadius = 5.0;
     
     CALayer *layer = self.detailViewController.view.layer;
 	layer.masksToBounds = NO;
 	layer.shadowColor = [UIColor blackColor].CGColor;
 	layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
 	layer.shadowOpacity = 1.0f;
-	layer.shadowRadius = 3.0;
+	layer.shadowRadius = 1.0;
     
     [self.view setNeedsLayout];
 }
@@ -262,6 +328,38 @@
 - (NSArray *)viewControllers
 {
     return self.childViewControllers;
+}
+
+- (void)didPresentMasterViewController
+{
+    if ( [self.delegate respondsToSelector:@selector(splitViewController:didPresentMasterViewController:)] )
+    {
+        return [self.delegate splitViewController:self didPresentMasterViewController:self.masterViewController];
+    }
+}
+
+- (void)willPresentMasterViewController
+{
+    if ( [self.delegate respondsToSelector:@selector(splitViewController:willPresentMasterViewController:)] )
+    {
+        return [self.delegate splitViewController:self willPresentMasterViewController:self.masterViewController];
+    }
+}
+
+- (void)didDismissMasterViewController
+{
+    if ( [self.delegate respondsToSelector:@selector(splitViewController:didDismissMasterViewController:)] )
+    {
+        return [self.delegate splitViewController:self didDismissMasterViewController:self.masterViewController];
+    }
+}
+
+- (void)willDismissMasterViewController
+{
+    if ( [self.delegate respondsToSelector:@selector(splitViewController:willDismissMasterViewController:)] )
+    {
+        return [self.delegate splitViewController:self willDismissMasterViewController:self.masterViewController];
+    }
 }
 
 @end

@@ -18,6 +18,8 @@
 		627E7DCE16503320001FD4B8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 627E7DCD16503320001FD4B8 /* Default-568h@2x.png */; };
 		627E7DD616503384001FD4B8 /* TKSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 627E7DD516503384001FD4B8 /* TKSplitViewController.m */; };
 		627E7DE3165040B7001FD4B8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 627E7DE2165040B7001FD4B8 /* QuartzCore.framework */; };
+		E2BFD2E91814589400961599 /* TKSampleMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BFD2E81814589400961599 /* TKSampleMasterViewController.m */; };
+		E2BFD2EC181458A400961599 /* TKSampleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BFD2EB181458A400961599 /* TKSampleDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,10 @@
 		627E7DD416503384001FD4B8 /* TKSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSplitViewController.h; sourceTree = "<group>"; };
 		627E7DD516503384001FD4B8 /* TKSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSplitViewController.m; sourceTree = "<group>"; };
 		627E7DE2165040B7001FD4B8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E2BFD2E71814589400961599 /* TKSampleMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSampleMasterViewController.h; sourceTree = "<group>"; };
+		E2BFD2E81814589400961599 /* TKSampleMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSampleMasterViewController.m; sourceTree = "<group>"; };
+		E2BFD2EA181458A400961599 /* TKSampleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSampleDetailViewController.h; sourceTree = "<group>"; };
+		E2BFD2EB181458A400961599 /* TKSampleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSampleDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,10 +93,14 @@
 		627E7DBD16503320001FD4B8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E2BFD2E71814589400961599 /* TKSampleMasterViewController.h */,
+				E2BFD2E81814589400961599 /* TKSampleMasterViewController.m */,
 				627E7DC616503320001FD4B8 /* TKAppDelegate.h */,
 				627E7DC716503320001FD4B8 /* TKAppDelegate.m */,
 				627E7DD416503384001FD4B8 /* TKSplitViewController.h */,
 				627E7DD516503384001FD4B8 /* TKSplitViewController.m */,
+				E2BFD2EA181458A400961599 /* TKSampleDetailViewController.h */,
+				E2BFD2EB181458A400961599 /* TKSampleDetailViewController.m */,
 			);
 			name = Classes;
 			path = Containment;
@@ -145,7 +155,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TK;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Tom Krush";
 			};
 			buildConfigurationList = 627E7DAD16503320001FD4B8 /* Build configuration list for PBXProject "TKSplitViewController" */;
@@ -185,7 +195,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				627E7DC416503320001FD4B8 /* main.m in Sources */,
+				E2BFD2E91814589400961599 /* TKSampleMasterViewController.m in Sources */,
 				627E7DC816503320001FD4B8 /* TKAppDelegate.m in Sources */,
+				E2BFD2EC181458A400961599 /* TKSampleDetailViewController.m in Sources */,
 				627E7DD616503384001FD4B8 /* TKSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +238,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -247,7 +260,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -258,10 +271,15 @@
 		627E7DD216503320001FD4B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tom/Desktop/TKSplitViewController,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Containment/TKSplitViewController-Prefix.pch";
 				INFOPLIST_FILE = "Containment/TKSplitViewController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -271,10 +289,15 @@
 		627E7DD316503320001FD4B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tom/Desktop/TKSplitViewController,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Containment/TKSplitViewController-Prefix.pch";
 				INFOPLIST_FILE = "Containment/TKSplitViewController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
